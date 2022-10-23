@@ -44,6 +44,7 @@ namespace Shadowsocks.Model
 
         // hidden options
         public bool isIPv6Enabled; // for experimental ipv6 support
+        public bool isOnlyUserRule; // enable only user-rule
         public bool generateLegacyUrl; // for pre-sip002 url compatibility
         public string geositeUrl; // for custom geosite source (and rule group)
         public string geositeSha256sumUrl; // optional custom sha256sum url, leave empty to disable checksum verification for your custom geosite source
@@ -83,6 +84,7 @@ namespace Shadowsocks.Model
 
             // hidden options
             isIPv6Enabled = false;
+            isOnlyUserRule = true;
             generateLegacyUrl = false;
             geositeUrl = "";
             geositeSha256sumUrl = "";

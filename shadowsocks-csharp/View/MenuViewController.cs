@@ -49,6 +49,7 @@ namespace Shadowsocks.View
         private MenuItem updateFromGeositeItem;
         private MenuItem editGFWUserRuleItem;
         private MenuItem editOnlinePACItem;
+        private MenuItem onlyUserRuleToggle;
         private MenuItem secureLocalPacUrlToggleItem;
         private MenuItem regenerateLocalPacOnUpdateItem;
         private MenuItem autoCheckUpdatesToggleItem;
@@ -277,6 +278,7 @@ namespace Shadowsocks.View
                     this.editLocalPACItem = CreateMenuItem("Edit Local PAC File...", new EventHandler(this.EditPACFileItem_Click)),
                     this.updateFromGeositeItem = CreateMenuItem("Update Local PAC from Geosite", new EventHandler(this.UpdatePACFromGeositeItem_Click)),
                     this.editGFWUserRuleItem = CreateMenuItem("Edit User Rule for Geosite...", new EventHandler(this.EditUserRuleFileForGeositeItem_Click)),
+                    this.onlyUserRuleToggle = CreateMenuItem("Use only User Rule", new EventHandler(this.OnlyUserRuleItem_Click)),
                     this.secureLocalPacUrlToggleItem = CreateMenuItem("Secure Local PAC", new EventHandler(this.SecureLocalPacUrlToggleItem_Click)),
                     this.regenerateLocalPacOnUpdateItem = CreateMenuItem("Regenerate local PAC on version update", new EventHandler(this.RegenerateLocalPacOnUpdateItem_Click)),
                     CreateMenuItem("Copy Local PAC URL", new EventHandler(this.CopyLocalPacUrlItem_Click)),
@@ -359,6 +361,7 @@ namespace Shadowsocks.View
             ProtocolHandlerItem.Checked = ProtocolHandler.Check();
             onlinePACItem.Checked = onlinePACItem.Enabled && config.useOnlinePac;
             localPACItem.Checked = !onlinePACItem.Checked;
+            onlyUserRuleToggle.Checked = config.isOnlyUserRule;
             secureLocalPacUrlToggleItem.Checked = config.secureLocalPac;
             regenerateLocalPacOnUpdateItem.Checked = config.regeneratePacOnUpdate;
             UpdatePACItemsEnabledStatus();
@@ -820,6 +823,13 @@ namespace Shadowsocks.View
             {
                 controller.SavePACUrl(pacUrl);
             }
+        }
+
+        private async void OnlyUserRuleItem_Click(object sender, EventArgs e)
+        {
+            Configuration configuration = controller.GetCurrentConfiguration();
+            controller.ToggleOnlyUserRule(!configuration.isOnlyUserRule);
+            await GeositeUpdater.UpdatePAC();
         }
 
         private void SecureLocalPacUrlToggleItem_Click(object sender, EventArgs e)

@@ -360,7 +360,7 @@ namespace Shadowsocks.Controller
         private static readonly IEnumerable<char> IgnoredLineBegins = new[] { '!', '[' };
         private void PacDaemon_UserRuleFileChanged(object sender, EventArgs e)
         {
-            GeositeUpdater.MergeAndWritePACFile(_config.geositeDirectGroups, _config.geositeProxiedGroups, _config.geositePreferDirect);
+            GeositeUpdater.MergeAndWritePACFile(_config.geositeDirectGroups, _config.geositeProxiedGroups, _config.geositePreferDirect,_config.isOnlyUserRule);
             UpdateSystemProxy();
         }
 
@@ -399,11 +399,17 @@ namespace Shadowsocks.Controller
             UserRuleFileReadyToOpen?.Invoke(this, new PathEventArgs() { Path = userRuleFilename });
         }
 
+        public void ToggleOnlyUserRule(bool enabled)
+        {
+            _config.isOnlyUserRule = enabled;
+            SaveConfig(_config);
+            ConfigChanged?.Invoke(this, new EventArgs());
+        }
+
         public void ToggleSecureLocalPac(bool enabled)
         {
             _config.secureLocalPac = enabled;
             SaveConfig(_config);
-
             ConfigChanged?.Invoke(this, new EventArgs());
         }
 
