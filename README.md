@@ -4,7 +4,7 @@
 
 ## Change
 
--Added "Use custom rules only" feature
+- Added "Use custom rules only" feature
 
 ![image](https://user-images.githubusercontent.com/26718359/197405058-0e80a2ca-a788-4764-86a5-2ec12888e5ea.png)
 
